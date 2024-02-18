@@ -9,9 +9,8 @@ services:
     # Mapping port agar container bisa diakses menggunakan port 80, port 8080 pada container telah diexpose pada Dockerfile
     ports:
       - 80:8080
-    # Volume Bind Mount pada current directory
-    volumes:
-      - ./:/app
+    # Menset working directory pada container pada path /app, karena pada Dockerfile working directory ada pada /app
+    working_dir: /app
     # Menetapkan depedensi terhadap service item-db, container hanya akan berjalan setelah service item-db sukses dijalankan
     depends_on:
       - item-db
