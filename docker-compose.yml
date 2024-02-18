@@ -1,20 +1,31 @@
+# Definiskan Schema Version untuk Compose File Format
 version: "3.8"
-
+# Definisikan services yang akan dibuat
 services:
+  # Services pertama item-app
   item-app:
+    # Container akan dijalankan berdasarkan image dari Github Container Registry yang telah dibuat
     image: "ghcr.io/fallinnadim/item-app:v1"
+    # Mapping port agar container bisa diakses menggunakan port 80, port 8080 pada container telah diexpose pada Dockerfile
     ports:
       - 80:8080
+    # Volume Bind Mount pada current directory
     volumes:
       - ./:/app
+    # Menetapkan depedensi terhadap service item-db, container hanya akan berjalan setelah service item-db sukses dijalankan
     depends_on:
       - item-db
+    # Restart policy untuk selalu me-restart container
     restart: always
+  # Services kedua item-db
   item-db:
+    # Container akan dijalankan berdasarkan image mongo:3 dari Dockerhub Container Registry
     image: mongo:3
+    # Menggunakan volume app-db yang akan digunakan container item-db
     volumes:
       - app-db:/data/db
+    # Restart policy untuk selalu me-restart container
     restart: always
-
+# Pembuatan docker volume baru dengan nama app-db
 volumes:
   app-db:
